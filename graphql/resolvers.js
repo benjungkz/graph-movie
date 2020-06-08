@@ -1,8 +1,17 @@
-// Connect with DB
-const reslovers = {
+import { getMovies, getIdById, deleteMovie, addMoive } from './db';
+
+
+// Resolvers
+const resolvers = {
     Query: {
-        name: () => "Ben Jung"
+        movies: () => getMovies(),
+        movie: ( _ , { id } ) => getIdById(id)
+    },
+    Mutation: {
+        addMovie: ( _ , { name, score } ) => addMoive( name, score ),
+        deleteMovie: ( _ , {id} ) => deleteMovie(id)
     }
 };
 
-export default reslovers;
+// Export
+export default resolvers;

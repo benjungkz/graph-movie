@@ -1,59 +1,19 @@
-// Connect with DB
-let movies = [
-    {
-        id: 1,
-        name: "Citizen Kein",
-        score: 8
-    },
-    {
-        id: 2,
-        name: "Madmax-4DX",
-        score: 10
-    },
-    {
-        id: 3,
-        name: "Parasite",
-        score: 9
-    },
-    {
-        id: 4,
-        name: "Mother",
-        score: 9.5
+import fetch from 'node-fetch';
+
+// Request API
+const API_URL = 'https://yts.mx/api/v2/list_movies.json?';
+
+//getMovies
+export const getMovies = ( limit, minimum_rating )=>{
+    let REQUEST_URL = API_URL;
+    if(limit > 0){
+        REQUEST_URL += `limit=${limit}`;
     }
-];
-
-// getMovies
-export const getMovies = () => movies;
-
-// getMovie
-export const getIdById = id => {
-    const filteredMovie = movies.filter(movie => id === movie.id);
-    return filteredMovie[0];
-}
-
-//deleteMovie
-export const deleteMovie = id =>{
-    const cleanedMovie = movies.filter(movie => id !== movie.id);
-    
-    //Validation
-    if( movies.length > cleanedMovie.length ){
-        // Mutation
-        movies = cleanedMovie;
-        return true;
-    }else{
-        return false;
+    if(minimum_rating > 0){
+        REQUEST_URL += `&minimum_rating=${minimum_rating}`;  
     }
-}
-
-//AddMovie
-export const addMoive = ( name, score ) => {
-    const newMovie = {
-        id: `${movies.length + 1}`,
-        name,
-        score
-    };
-
-    movies.push(newMovie);
-
-    return newMovie;
+    // Fetch
+    return fetch(REQUEST_URL)
+        .then(res => res.json())
+        .then(json => json.data.movies);
 }

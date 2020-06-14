@@ -1,10 +1,10 @@
 // import fetch from 'node-fetch';
 import axios from 'axios';
 
-
 const BASE_API_URL = 'https://yts.mx/api/v2/';
 const LIST_MOVIE_URL = `${BASE_API_URL}list_movies.json`;
 const MOVIE_DETAIL_URL = `${BASE_API_URL}movie_details.json`;
+const MOVIE_SUGGESTIONS_URL = `${BASE_API_URL}movie_suggestions.json`;
 
 
 // Request API
@@ -25,7 +25,7 @@ export const getMovies = async ( limit, rating ) => {
 }
 
 // Get Detail of Movie
-export const getMovie = async ( id ) => {
+export const getMovie = async id => {
     const {
         data: {
             data: { movie }
@@ -40,6 +40,20 @@ export const getMovie = async ( id ) => {
 }
 
 // Get suggestion of movie
+export const getSuggestions = async id =>{
+    const {
+        data: {
+            data: { movies }
+        }
+    } = await axios.get( MOVIE_SUGGESTIONS_URL, {
+        params:{
+            movie_id: id
+        }
+    })
+
+    return movies;
+
+}
 
 
 // //getMovies (node-fetch)
